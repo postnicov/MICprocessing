@@ -18,9 +18,12 @@ FS=19;%Font size for figures
 outName=['PROCESSED',fname];
 % Test description
 T=cell(6,1);
-% if length(xlstext([3,5:9],1))==6
-%     T=xlstext([3,5:9],1);
-% end
+sz=size(xlstext);
+if sz(1)>9
+if length(xlstext([3,5:9],1))==6
+    T=xlstext([3,5:9],1);
+end
+end
 % Extracting fluorescence data
 data=xlsdata(2:end-1,1:end-1);
 [n,m]=size(data);
@@ -109,7 +112,9 @@ ind=find(indCtr1==1);
 indMIC=max(ind);
 
 indMWMIC=find((h==1)&DataMedian(2:end)>DataMedian(1))-1;
-indMWMIC=indMWMIC(1);
+if length(indMWMIC>0)
+    indMWMIC=indMWMIC(1);
+end
 
 plot([1,m],[ConfUpDown(2,1),ConfUpDown(2,1)],'-.','color','black')
 plot([1,m],[ConfUpDown(1,1),ConfUpDown(1,1)],'-.','color','black')
@@ -135,7 +140,6 @@ for j=1:m-2
             %plot(j+1,0.5,'.','Marker','none')
             text(j+1,0.5,'<','FontSize',FS)
             hold on
-            print('!')
         else
             %plot(j+1,0.5,'.','Marker','none')
             text(j+1,0.5,'>','FontSize',FS)
